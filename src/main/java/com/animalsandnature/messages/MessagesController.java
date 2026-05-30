@@ -1,11 +1,18 @@
 package com.animalsandnature.messages;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.web.server.authentication.ServerBearerTokenAuthenticationConverter;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.List;
+
+import java.net.http.HttpRequest;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -13,11 +20,13 @@ public class MessagesController {
 
     @Autowired
     MessageRepository messageRepo;
+    HashMap<Long,Message> messages=new HashMap<Long, Message>();
 
 
     @GetMapping(value = "/messages")
+    @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        System.out.println("Getting messages: "+messageRepo.findById("661eccf123a9045576583542"));
+        System.out.println("Getting messages");
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
