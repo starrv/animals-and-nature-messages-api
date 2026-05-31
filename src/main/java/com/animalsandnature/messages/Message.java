@@ -3,7 +3,7 @@ package com.animalsandnature.messages;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document("message")
 public class Message{
 
     @Id

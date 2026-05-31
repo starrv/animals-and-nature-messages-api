@@ -10,6 +10,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.web.server.authentication.ServerBearerTokenAuthenticationConverter;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.http.HttpRequest;
 import java.util.*;
@@ -31,6 +32,7 @@ public class MessagesController {
     }
 
     @GetMapping("/messages/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public Message messageById(@PathVariable String id) throws RuntimeException{
         Message msg=messageRepo.findMessageByIdAndNotificationType(id,"Received");
         if(msg!=null){
@@ -40,18 +42,24 @@ public class MessagesController {
     }
 
     @PostMapping("/messages")
+    @PreAuthorize("hasAuthority('SCOPE_write:messages')")
     @ResponseStatus(HttpStatus.CREATED)
     public Message addMessage(@RequestBody Message msg){
         System.out.println("Saving message");
         return messageRepo.save(msg);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(HttpClientErrorException.NotFound.class)
     public ResponseEntity<ErrorMessage> errorHandleNotFound(Exception e){
         ResponseEntity<ErrorMessage> resp=new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()),HttpStatus.NOT_FOUND);
         return resp;
     }
 
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+    public ResponseEntity<ErrorMessage> errorHandleUnauthorized(Exception e){
+        ResponseEntity<ErrorMessage> resp=new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()),HttpStatus.UNAUTHORIZED);
+        return resp;
+    }
 
 
 }
