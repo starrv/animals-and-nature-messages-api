@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.http.HttpRequest;
+import java.time.LocalTime;
 import java.util.*;
 
 @CrossOrigin
@@ -27,7 +28,7 @@ public class MessagesController {
     @GetMapping(value = "/messages")
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        System.out.println("Getting messages");
+        System.out.println(LocalTime.now()+": Getting messages");
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
@@ -51,6 +52,12 @@ public class MessagesController {
 
     @ExceptionHandler(HttpClientErrorException.NotFound.class)
     public ResponseEntity<ErrorMessage> errorHandleNotFound(Exception e){
+        ResponseEntity<ErrorMessage> resp=new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()),HttpStatus.NOT_FOUND);
+        return resp;
+    }
+
+    @ExceptionHandler(MessageNotFoundException.class)
+    public ResponseEntity<ErrorMessage> errorHandleMessageNotFound(Exception e){
         ResponseEntity<ErrorMessage> resp=new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()),HttpStatus.NOT_FOUND);
         return resp;
     }
