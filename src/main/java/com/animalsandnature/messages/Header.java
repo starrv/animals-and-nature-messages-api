@@ -1,9 +1,13 @@
 package com.animalsandnature.messages;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class Header {
 
+    @JsonView(WithMailView.class)
     private String name;
 
+    @JsonView(WithMailView.class)
     private String value;
 
     public Header(){}
@@ -22,5 +26,10 @@ public class Header {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString(){
+        return "Header: {name:"+getName()+" value: "+getValue()+"}";
     }
 }

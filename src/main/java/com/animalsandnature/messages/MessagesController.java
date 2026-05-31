@@ -1,24 +1,22 @@
 package com.animalsandnature.messages;
 
+import java.util.HashMap;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.server.resource.web.server.authentication.ServerBearerTokenAuthenticationConverter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.net.http.HttpRequest;
-import java.time.LocalTime;
-import java.util.*;
 
 @CrossOrigin
 @RestController
 public class MessagesController {
+
+    private Log log = LogFactory.getLog(MessagesController.class);
 
     @Autowired
     MessageRepository messageRepo;
@@ -26,15 +24,18 @@ public class MessagesController {
 
 
     @GetMapping(value = "/messages")
+    @JsonView(WithoutMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        System.out.println(LocalTime.now()+": Getting messages");
+        Functions.print(log,Functions.INFO,"Getting messages");
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
     @GetMapping("/messages/{id}")
+    @JsonView(WithMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public Message messageById(@PathVariable String id) throws RuntimeException{
+        Functions.print(log,Functions.INFO,"Getting message with id "+id);
         Message msg=messageRepo.findMessageByIdAndNotificationType(id,"Received");
         if(msg!=null){
             return msg;
@@ -46,7 +47,7 @@ public class MessagesController {
     @PreAuthorize("hasAuthority('SCOPE_write:messages')")
     @ResponseStatus(HttpStatus.CREATED)
     public Message addMessage(@RequestBody Message msg){
-        System.out.println("Saving message");
+        Functions.print(log,Functions.INFO,"Saving message");
         return messageRepo.save(msg);
     }
 
