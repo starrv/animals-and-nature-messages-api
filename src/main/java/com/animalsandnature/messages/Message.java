@@ -1,5 +1,6 @@
 package com.animalsandnature.messages;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,11 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Message{
 
     @Id
+    @JsonView(WithoutMailView.class)
     private String id;
+    @JsonView(WithoutMailView.class)
     private String notificationType;
 
+    @JsonView(WithMailView.class)
     private Mail mail;
 
+    @JsonView(WithoutMailView.class)
     private String content;
 
     public Message(){}
@@ -46,6 +51,11 @@ public class Message{
 
     public void setMail(Mail mail) {
         this.mail = mail;
+    }
+
+    @Override
+    public String toString(){
+        return "Message: {id: "+id+" content: "+content+" notification type: "+notificationType+" mail: "+mail+"}";
     }
 
 }
