@@ -1,6 +1,8 @@
 package com.animalsandnature.messages;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
