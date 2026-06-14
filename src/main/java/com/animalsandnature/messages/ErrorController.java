@@ -10,7 +10,7 @@ public class ErrorController {
 
     @RequestMapping("/*")
     public ResponseEntity<ErrorMessage> wrongURL(){
-        ErrorMessage errorMsg=new ErrorMessage("Wrong path");
+        ErrorMessage errorMsg=new ErrorMessage("Wrong path!!");
         return new ResponseEntity<>(errorMsg,HttpStatus.NOT_FOUND);
     }
 }

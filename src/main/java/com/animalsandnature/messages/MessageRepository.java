@@ -14,4 +14,6 @@ public interface MessageRepository extends MongoRepository<Message,String> {
     @Query(value="{notificationType: '?0'}")
     List<Message> findMessagesByNotificationType(String notificationType);
 
+    @Override
+    long count();
 }
