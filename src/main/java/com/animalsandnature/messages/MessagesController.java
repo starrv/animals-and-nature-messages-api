@@ -20,14 +20,12 @@ public class MessagesController {
 
     @Autowired
     MessageRepository messageRepo;
-    HashMap<Long,Message> messages=new HashMap<Long, Message>();
-
 
     @GetMapping(value = "/messages")
     @JsonView(WithoutMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        Functions.print(log,Functions.INFO,"Getting messages");
+        Functions.print(log,Functions.INFO,"Getting messages: "+ messageRepo.count());
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
