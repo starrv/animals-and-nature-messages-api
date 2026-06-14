@@ -24,7 +24,7 @@ public class MessagesController {
     @JsonView(WithoutMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        Functions.print(log,Functions.INFO,"Getting messages: "+ messageRepo.findMessagesByNotificationType("Received"));
+        Functions.print(log,Functions.INFO,"Getting messages: "+ messageRepo.findById("661eccf123a9045576583542"));
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
