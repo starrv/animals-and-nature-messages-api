@@ -1,6 +1,5 @@
 package com.animalsandnature.messages;
 
-import java.util.HashMap;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.commons.logging.Log;
@@ -25,7 +24,7 @@ public class MessagesController {
     @JsonView(WithoutMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        Functions.print(log,Functions.INFO,"Getting messages: "+ messageRepo.count());
+        Functions.print(log,Functions.INFO,"Getting messages: "+ messageRepo.findMessagesByNotificationType("Received"));
         return messageRepo.findMessagesByNotificationType("Received");
     }
 

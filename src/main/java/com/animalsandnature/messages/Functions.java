@@ -37,8 +37,4 @@ class Functions {
 
     }
 
-    static void printErrorStmt(Log log, Object msg){
-        log.error(LocalDateTime.now()+": "+msg);
-    }
-
 }
