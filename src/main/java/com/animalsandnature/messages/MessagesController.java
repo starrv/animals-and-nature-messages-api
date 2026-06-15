@@ -4,6 +4,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,6 @@ public class MessagesController {
     @JsonView(WithoutMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
-        Functions.print(log,Functions.INFO,"Getting messages: "+ messageRepo.findById("661eccf123a9045576583542"));
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
@@ -32,7 +32,6 @@ public class MessagesController {
     @JsonView(WithMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public Message messageById(@PathVariable String id) throws RuntimeException{
-        Functions.print(log,Functions.INFO,"Getting message with id "+id);
         Message msg=messageRepo.findMessageByIdAndNotificationType(id,"Received");
         if(msg!=null){
             return msg;
