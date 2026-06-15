@@ -9,9 +9,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 public class MessagesApplication{
 
-	@Autowired
-	MessageRepository messageRepository;
-
 	public static void main(String[] args) {
 		SpringApplication.run(MessagesApplication.class, args);
 	}

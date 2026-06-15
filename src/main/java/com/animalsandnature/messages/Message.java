@@ -1,8 +1,11 @@
 package com.animalsandnature.messages;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document("message")
 public class Message{
