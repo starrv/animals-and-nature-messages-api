@@ -24,6 +24,7 @@ public class MessagesController {
     @JsonView(WithoutMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public List<Message> messages(){
+        Functions.print(log,Functions.INFO,"retrieving messages....");
         return messageRepo.findMessagesByNotificationType("Received");
     }
 
@@ -31,6 +32,7 @@ public class MessagesController {
     @JsonView(WithMailView.class)
     @PreAuthorize("hasAuthority('SCOPE_read:messages')")
     public Message messageById(@PathVariable String id) throws RuntimeException{
+        Functions.print(log,Functions.INFO,"retrieving message with id "+id+"....");
         Message msg=messageRepo.findMessageByIdAndNotificationType(id,"Received");
         if(msg!=null){
             return msg;
@@ -42,7 +44,7 @@ public class MessagesController {
     @PreAuthorize("hasAuthority('SCOPE_write:messages')")
     @ResponseStatus(HttpStatus.CREATED)
     public Message addMessage(@RequestBody Message msg){
-        Functions.print(log,Functions.INFO,"Saving message");
+        Functions.print(log,Functions.INFO,"adding new message....");
         return messageRepo.save(msg);
     }
 
