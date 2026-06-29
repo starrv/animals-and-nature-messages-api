@@ -11,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.net.ssl.SSLException;
+
 @CrossOrigin
 @RestController
 public class MessagesController {
@@ -66,5 +68,10 @@ public class MessagesController {
         return resp;
     }
 
+    @ExceptionHandler(SSLException.class)
+    public ResponseEntity<ErrorMessage> errorHandleSSSLExcpetion(Exception e){
+        ResponseEntity<ErrorMessage> resp=new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+        return resp;
+    }
 
 }
