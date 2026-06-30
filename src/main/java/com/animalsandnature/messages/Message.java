@@ -11,7 +11,7 @@ public class Message{
     @JsonView(WithoutMailView.class)
     private String notificationType;
 
-    @JsonView(WithMailView.class)
+    @JsonView(WithoutMailView.class)
     private Mail mail;
 
     @JsonView(WithoutMailView.class)

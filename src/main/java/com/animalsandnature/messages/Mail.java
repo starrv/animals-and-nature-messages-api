@@ -7,7 +7,7 @@ public class Mail {
     @JsonView(WithMailView.class)
     private Header[] headers;
 
-    @JsonView(WithMailView.class)
+    @JsonView(WithoutMailView.class)
     private String timestamp;
 
     public Header[] getHeaders() {
