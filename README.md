@@ -4,7 +4,8 @@ REST API for Animals and Messages administrator dashboard where administrators c
 
 - GET /messages
 - GET /messages/{id}
-- POSt /messages
+- POST /messages
 
 Below are the headers:
 - Authorization: Bearer <token>
+- Content-Type: Application/JSON
